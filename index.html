@@ -14,8 +14,53 @@
 </head>
 
 <body>
-  <div class='wrapper'>
-
+  <div class='popup popup--hidden'>
+    <div class='popup__content'>
+      <div class='popup__gallery'>
+        <div class='popup__gallery__arrow'>
+          <img class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
+        </div>
+        <div class='popup__gallery__holder'>
+          <img src='./svg/xbox.svg'>
+        </div>
+        <div class='popup__gallery__arrow'>
+          <img class='arrow' id='rightArrow' src='./svg/chevron-right.svg'>
+        </div>
+      </div>
+      <div class='popup__form'>
+        <form>
+          <div class='form__header'>
+            <span id='productName'>Konsola MICROSOFT XBOX ONE S 500GB + FIFA 19</span>
+            <!-- Where should be this button in RWD? -->
+            <!-- Above image or above form? -->
+            <span id='exitButton'><img src='./svg/close.svg'></span>
+          </div>
+          <div class='form__productSize'>
+            <input type='radio' id='32gb' name='size' value='32' checked>
+              <label for='32gb'>Ram 32 GB</label>
+            <input type='radio' id='64gb' name='size' value='64'>
+              <label for='64gb'>Ram 64 GB</label>
+            <input type='radio' id='96gb' name='size' value='96'>
+              <label for='96gb'>Ram 96 GB</label>
+          </div>
+          <div class='form__productVarian t'>
+            <select name='variant'>
+              <option value='Srebrny'>Srebrny</option>
+              <option value='Czarny'>Czarny</option>
+              <option value='Biały'>Biały</option>
+            </select>
+          </div>
+          <div class='form__productAvaibility'>
+            <span id='isAvaiable'>Produkt dostępny</span>
+            <div id='delivery'>Sprawdź czas i koszt wysyłki</div>
+          </div>
+          <div class='form__productQuantity'>
+            <span id='quantity'>- 1 +</span>
+            <span id='addToCartButton'>Dodaj do koszyka</span>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </body>
 </html>
