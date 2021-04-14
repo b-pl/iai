@@ -9,25 +9,20 @@ body {
   color: #333333;
 }
 
-.popup {
-  width: 745px;
-  height: 355px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: 1px solid black;
-}
-
 #productName {
   font-size: 16pt;
   font-weight: bold;
 }
 
-@media only screen and (max-width: 756px) {
+/* @media only screen and (max-width: 756px) { */
   .popup {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
   }
 
   .popup__content {
@@ -68,12 +63,10 @@ body {
     width: 100vw;
   }
 
-  /* Maybe this part will go to "general" CSS, not RWD */
   .form__header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* margin: 0.5em; */
     width: 90%;
     margin: 1rem auto;
   }
@@ -83,7 +76,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* margin: 1em; */
     width: 90%;
     margin: 1rem auto;
   }
@@ -107,11 +99,8 @@ body {
 
   .form__productSize label {
     display: inline-block;
-    /* width: 25%; */
     border: 1px solid #C3C7C8;
     border-radius: 5px;
-    /* margin: 0.5em; */
-    /* padding: 0.5em; */
     text-align: center;
     color: #474747;
     width: 20%;
@@ -196,19 +185,16 @@ body {
   .form__productQuantity {
     display: flex;
     flex-direction: row;
-    /* align-items: center;
-    justify-content: space-evenly; */
     width: 90%;
     margin: 1rem auto;
   }
 
   .quantity {
-    /* margin: 1em; */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    /* width: 35%; */
+    width: 35%;
     height: 3rem;
     border: 1px solid black;
     border-radius: 5px;
@@ -239,5 +225,12 @@ body {
     font-weight: bold;
     height: 3rem;
     width: 100%;
+  }
+/* }  */
+
+@media only screen and (min-width: 757px) {
+  .popup {
+    width: 745px;
+    height: 355px;
   }
 }
