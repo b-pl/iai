@@ -43,20 +43,49 @@
             <input type='radio' id='96gb' name='size' value='96'>
               <label for='96gb'>Ram 96 GB</label>
           </div>
-          <div class='form__productVarian t'>
-            <select name='variant'>
-              <option value='Srebrny'>Srebrny</option>
-              <option value='Czarny'>Czarny</option>
-              <option value='Biały'>Biały</option>
-            </select>
+
+          <div class='form__productVariant'>
+            <div class='customSelect'>
+              <div class='customSelect--default customSelect--default--border'>
+                <span class='customSelect__option'>Srebrny</span>
+                <span class='customSelect__arrow'></span>
+              </div>
+              <div class='customSelect__options'>
+                <span class='customSelect__option selected' data-value='srebrny'>Srebrny</span>
+                <span class='customSelect__option' data-value='czarny'>Czarny</span>
+                <span class='customSelect__option' data-value='biały'>Biały</span>
+              </div>
+            </div>
           </div>
+          
           <div class='form__productAvaibility'>
-            <span id='isAvaiable'>Produkt dostępny</span>
-            <div id='delivery'>Sprawdź czas i koszt wysyłki</div>
+            <div class='productAvaibility__isAvaiable'>
+              <span class='productAvaibility__icon'>
+                <img src='./svg/tick.svg'>
+              </span>
+              <span class='productAvaibility__text'>
+                Produkt dostępny
+              </span>
+            </div>
+            <div class='productAvaibility__delivery'>
+              <span class='productAvaibility__icon'>
+                <img src='./svg/timer.svg'>
+              </span>
+              <span class='productAvaibility__text'>
+                <div>Możemy wysłać już dzisiaj!</div>
+                <div class='text--blue'>Sprawdź czas i koszt wysyłki</div>
+              </span>
+            </div>
           </div>
           <div class='form__productQuantity'>
-            <span id='quantity'>- 1 +</span>
-            <span id='addToCartButton'>Dodaj do koszyka</span>
+            <div class='quantity'>
+              <span class='quantity__operator'>-</span>
+              <span class='quantity__numberContainer'><input id='quantity__number' type='text' value='1'></span>
+              <span class='quantity__operator'>+</span>
+            </div>
+            <div class='addToCartButton__container'>
+              <button class='addToCartButton' type='button'>Dodaj do koszyka</button>
+            </div>
           </div>
         </form>
       </div>
