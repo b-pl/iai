@@ -17,34 +17,38 @@
   <div class='popup popup--hidden'>
     <div class='popup__content'>
       <div class='popup__gallery'>
-        <div class='popup__gallery__arrow'>
-          <img class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
+        <div class='popup__gallery__arrow popup__gallery__arrow--left'>
+          <img alt='Back arrow' class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
         </div>
-        <div class='popup__gallery__holder'>
-          <img src='./svg/xbox.svg'>
+        <div class='popup__gallery__image'>
+          <img alt='Product image' src='./svg/xbox.png'>
         </div>
-        <div class='popup__gallery__arrow'>
-          <img class='arrow' id='rightArrow' src='./svg/chevron-right.svg'>
+        <div class='popup__gallery__arrow popup__gallery__arrow--right'>
+          <img alt='Forward arrow' class='arrow' id='rightArrow' src='./svg/chevron-right.svg'>
         </div>
       </div>
       <div class='popup__form'>
-        <form>
+        <form id='buyForm'>
           <div class='form__header'>
             <span id='productName'>Konsola MICROSOFT XBOX ONE S 500GB + FIFA 19</span>
             <!-- Where should be this button in RWD? -->
             <!-- Above image or above form? -->
-            <span id='exitButton'><img src='./svg/close.svg'></span>
+            <span id='exitButton'><img alt='Exit cross' src='./svg/close.svg'></span>
           </div>
           <div class='form__productSize'>
-            <input type='radio' id='32gb' name='size' value='32' checked>
-              <label for='32gb'>Ram 32 GB</label>
-            <input type='radio' id='64gb' name='size' value='64'>
-              <label for='64gb'>Ram 64 GB</label>
-            <input type='radio' id='96gb' name='size' value='96'>
-              <label for='96gb'>Ram 96 GB</label>
+            <div class='form__customLabel'>Rozmiar:</div>
+            <div class='productSize__options'>
+              <input type='radio' id='32gb' name='size' value='32' checked>
+                <label for='32gb'>Ram 32 GB</label>
+              <input type='radio' id='64gb' name='size' value='64'>
+                <label for='64gb'>Ram 64 GB</label>
+              <input type='radio' id='96gb' name='size' value='96'>
+                <label for='96gb'>Ram 96 GB</label>
+            </div>
           </div>
 
           <div class='form__productVariant'>
+            <div class='form__customLabel'>Wariant:</div>
             <div class='customSelect'>
               <div class='customSelect--default customSelect--default--border'>
                 <span class='customSelect__option'>Srebrny</span>
@@ -60,28 +64,28 @@
           
           <div class='form__productAvaibility'>
             <div class='productAvaibility__isAvaiable'>
-              <span class='productAvaibility__icon'>
-                <img src='./svg/tick.svg'>
+              <span class='productAvaibility__icon avaiableIcon'>
+                <img alt='Tick' src='./svg/tick.svg'>
               </span>
               <span class='productAvaibility__text'>
                 Produkt dostępny
               </span>
             </div>
             <div class='productAvaibility__delivery'>
-              <span class='productAvaibility__icon'>
-                <img src='./svg/timer.svg'>
+              <span class='productAvaibility__icon deliveryIcon'>
+                <img alt='Timer' src='./svg/timer.svg'>
               </span>
-              <span class='productAvaibility__text'>
+              <div class='productAvaibility__text'>
                 <div>Możemy wysłać już dzisiaj!</div>
-                <div class='text--blue'>Sprawdź czas i koszt wysyłki</div>
-              </span>
+                <div class='text--blue'>Sprawdź czasy i koszty wysyłki</div>
+              </div>
             </div>
           </div>
           <div class='form__productQuantity'>
             <div class='quantity'>
-              <span class='quantity__operator'>-</span>
-              <span class='quantity__numberContainer'><input id='quantity__number' type='text' value='1'></span>
-              <span class='quantity__operator'>+</span>
+              <span class='quantity__operator operatorMinus'>-</span>
+              <span class='quantity__numberContainer'><input id='quantity__number' type='text' value='1' disabled></span>
+              <span class='quantity__operator operatorPlus'>+</span>
             </div>
             <div class='addToCartButton__container'>
               <button class='addToCartButton' type='button'>Dodaj do koszyka</button>
