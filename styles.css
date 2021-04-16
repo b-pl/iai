@@ -12,6 +12,7 @@ body {
 #productName {
   font-size: 16px;
   font-weight: bold;
+  color: #333;
 }
 
 /* @media only screen and (max-width: 756px) { */
@@ -163,13 +164,27 @@ body {
     padding: 0.5em 0.35em 0.5em 0.35em;
     outline: none;
     font-size: 12px;
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .customSelect__option:hover {
+    background-color: #daeff5;
   }
 
   .customSelect__arrow {
     content: url('./svg/chevron-right.svg');
     transform: rotate(90deg);
     padding: 0.5em 0.35em 0.5em 0.35em;
+    visibility: visible;
+    z-index: 1;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
 
+  .customSelect__arrow--rotate {
+    transform: rotate(-90deg);
   }
 
   .customSelect__options {
@@ -186,12 +201,18 @@ body {
   .customSelect__options--visible {
     visibility: visible;
     border-radius: 5px;
+    width: 90%;
+    max-width: 430px;
   }
 
   .customSelect--default--border {
     border: 1px solid #C3C7C8;
     border-radius: 5px;
     visibility: visible;
+  }
+
+  .form__productAvaibility {
+    color: #333;
   }
 
   .productAvaibility__isAvaiable {
@@ -231,6 +252,7 @@ body {
     border: 1px solid black;
     border-radius: 5px;
     margin-right: 1rem;
+    color: #474747;
   }
 
   .quantity__numberContainer {
@@ -251,13 +273,18 @@ body {
   }
 
   .addToCartButton {
-    border: none;
+    border: 1px solid #0090F6;
+    border-radius: 3px;
     background-color: #0090F6;
     color: #fff;
     font-size: 15px;
     font-weight: bold;
     height: 3rem;
     width: 100%;
+  }
+
+  #exitButton {
+    color: #2B2B2B;
   }
 /* }  */
 
@@ -355,8 +382,14 @@ body {
     width: 367px;
   }
 
+  .customSelect__options {
+    width: 367px;
+  }
+
   .customSelect__option {
     padding: 9px 0 10px 12px;
+    margin: 0;
+    width: auto;
   }
 
   .customSelect__arrow {
@@ -365,6 +398,13 @@ body {
     position: fixed;
     left: 95%;
     margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  .customSelect__arrow--rotate {
+    transform: rotate(-90deg);
+    transform-origin: bottom;
+    margin-top: 4px;
   }
 
   .form__productAvaibility {
@@ -401,8 +441,6 @@ body {
   }
 
   #exitButton {
-    /* margin-left: 1rem;
-    padding-left: 1.5rem; */
     margin-right: 1rem;
   }
 
