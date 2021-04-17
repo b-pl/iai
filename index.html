@@ -15,19 +15,19 @@
 
 <body>
   <button id='createPopup'>Click me!</button>
-  
+
   <div class='overlay'>
   <template id='popupBox'>
     <div class='popup popup--hidden'>
       <div class='popup__content'>
         <div class='popup__gallery'>
-          <div class='popup__gallery__arrow popup__gallery__arrow--left'>
+          <div class='popup__gallery__arrow' id='arrowLeftContainer'>
             <img alt='Back arrow' class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
           </div>
           <div class='popup__gallery__image'>
             <img id='productImage' alt='Product image' src=''>
           </div>
-          <div class='popup__gallery__arrow popup__gallery__arrow--right'>
+          <div class='popup__gallery__arrow' id='arrowRightContainer'>
             <img alt='Forward arrow' class='arrow' id='rightArrow' src='./svg/chevron-right.svg'>
           </div>
         </div>
@@ -39,31 +39,22 @@
             </div>
             <div class='form__productSize'>
               <div class='form__customLabel'>Rozmiar:</div>
-              <div class='productSize__options'>
-                <input type='radio' id='32gb' name='size' value='32' checked>
-                <label for='32gb'>Ram 32 GB</label>
-                <input type='radio' id='64gb' name='size' value='64'>
-                <label for='64gb'>Ram 64 GB</label>
-                <input type='radio' id='96gb' name='size' value='96'>
-                <label for='96gb'>Ram 96 GB</label>
+                <div class='productSize__options'>
+                  <!-- CLONE TEMPLATE HERE -->
+                </div>
               </div>
-            </div>
-  
             <div class='form__productVariant'>
               <div class='form__customLabel'>Wariant:</div>
               <div class='customSelect'>
                 <div class='customSelect--default customSelect--default--border'>
-                  <span class='customSelect__option' data-value='srebrny'>Srebrny</span>
+                  <span class='customSelect__option' id='customSelect__defaultOption' data-value=''></span>
                   <span class='customSelect__arrow'></span>
                 </div>
                 <div class='customSelect__options'>
-                  <span class='customSelect__option selected' data-value='srebrny'>Srebrny</span>
-                  <span class='customSelect__option' data-value='czarny'>Czarny</span>
-                  <span class='customSelect__option' data-value='biały'>Biały</span>
+                  <!-- CLONE TEMPLATE HERE -->
                 </div>
               </div>
             </div>
-  
             <div class='form__productAvaibility'>
               <div class='productAvaibility__isAvaiable'>
                 <span class='productAvaibility__icon avaiableIcon'>
@@ -86,8 +77,9 @@
             <div class='form__productQuantity'>
               <div class='quantity'>
                 <span class='quantity__operator operatorMinus'>-</span>
-                <span class='quantity__numberContainer'><input id='quantity__number' type='text' value='1'
-                    disabled></span>
+                <span class='quantity__numberContainer'>
+                  <input id='quantity__number' type='text' value='1' disabled>
+                </span>
                 <span class='quantity__operator operatorPlus'>+</span>
               </div>
               <div class='addToCartButton__container'>
@@ -98,6 +90,17 @@
         </div>
       </div>
     </div>
+    </template>
+
+    <template id='option'>
+      <div class='productSize__option'>
+        <input type='radio' id='' class='option__size' name='size' value=''>
+        <label for=''></label>
+      </div>
+    </template>
+
+    <template id='select'>
+      <span class='customSelect__option' data-value=''></span>
     </template>
   </div>
 </body>
