@@ -41,7 +41,7 @@ const createModal = () => {
   productImage.src = productInfo.images[0]
 
   // Add event listener to gallery arrows 
-  const switchArrows = clone.querySelectorAll('.popup__gallery__arrow')
+  const switchArrows = clone.querySelectorAll('.arrow')
   switchArrows.forEach(element => {
     element.addEventListener('click', (e) => switchImage(productInfo.images, element.id))
   })
@@ -59,6 +59,9 @@ const createModal = () => {
 
   // Create nodes with variant options
   appendVariants(clone, productInfo)
+
+  const submitButton = clone.querySelector('.addToCartButton')
+  submitButton.addEventListener('click', handleSubmit)
 
   // Destroy modal on close
   const exitButton = clone.querySelector('#exitButton')
@@ -213,6 +216,11 @@ const handleQuantityChange = (element) => {
       }
     }
   })
+}
+
+const handleSubmit = (e) => {
+  e.preventDefault()
+  console.log('click')
 }
 
 const runScript = () => {
