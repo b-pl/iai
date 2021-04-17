@@ -55,7 +55,6 @@
                 </div>
               </div>
             </div>
-  
             <div class='form__productAvaibility'>
               <div class='productAvaibility__isAvaiable'>
                 <span class='productAvaibility__icon avaiableIcon'>
@@ -78,8 +77,9 @@
             <div class='form__productQuantity'>
               <div class='quantity'>
                 <span class='quantity__operator operatorMinus'>-</span>
-                <span class='quantity__numberContainer'><input id='quantity__number' type='text' value='1'
-                    disabled></span>
+                <span class='quantity__numberContainer'>
+                  <input id='quantity__number' type='text' value='1' disabled>
+                </span>
                 <span class='quantity__operator operatorPlus'>+</span>
               </div>
               <div class='addToCartButton__container'>
@@ -94,13 +94,13 @@
 
     <template id='option'>
       <div class='productSize__option'>
-        <input type='radio' id='' name='size' value='' checked>
+        <input type='radio' id='' class='option__size' name='size' value=''>
         <label for=''></label>
       </div>
     </template>
 
     <template id='select'>
-      <span class='customSelect__option selected' data-value=''></span>
+      <span class='customSelect__option' data-value=''></span>
     </template>
   </div>
 </body>
