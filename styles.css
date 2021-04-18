@@ -149,7 +149,6 @@ body {
     flex-direction: row;
   }
 
-  /* Hide default radio buttons */
   .form__productSize input {
     position: absolute;
     opacity: 0;
@@ -210,7 +209,6 @@ body {
     padding: 0.5em 0.35em 0.5em 0.35em;
     outline: none;
     font-size: 12px;
-    width: 100%;
     margin-top: 4px;
     margin-bottom: 4px;
     cursor: pointer;
@@ -239,21 +237,24 @@ body {
   }
 
   .customSelect__options {
-    visibility: hidden;
     width: 90%;
+    max-width: 430px;
     position: absolute;
     display: flex;
     flex-direction: column;
     border: 1px solid #C3C7C8;
     border-radius: 5px;
     background-color: #fff;
+    opacity: 0;
+    transition: all .7s ease;
+    z-index: -1;
   }
 
   .customSelect__options--visible {
-    visibility: visible;
     border-radius: 5px;
-    width: 90%;
     max-width: 430px;
+    opacity: 1;
+    z-index: 0;
   }
 
   .customSelect--default--border {
@@ -338,16 +339,30 @@ body {
     transition: ease .5s;
   }
 
-  .addToCartButton:active {
-    background-color: #fff;
-    border: 1px solid #fff;
-    border-radius: 3px;
-  }
-
   #exitButton {
     color: #2B2B2B;
     cursor: pointer;
     visibility: hidden;
+  }
+
+  @keyframes animation1 {
+    0% {opacity: 0%;}
+    100% {opacity: 100%;}
+  }
+
+  @keyframes animation2 {
+    0% {opacity: 0%;}
+    100% {opacity: 100%;}
+  }
+
+  .gallery__animation-1 {
+    animation-name: animation1;
+    animation-duration: 1s;
+  }
+
+  .gallery__animation-2 {
+    animation-name: animation2;
+    animation-duration: 1s;
   }
 
 @media only screen and (min-width: 757px) {
@@ -581,6 +596,14 @@ body {
     margin-top: 2px;
   }
 
+  .addToCartButton__container:active {
+    min-width: 216px;
+    height: 48px;
+    margin-right: 16px;
+    margin-top: 2px;
+    transform: translateY(2px);
+  }
+
   .addToCartButton {
     border: 1px solid #0090F6;
     border-radius: 3px;
@@ -601,5 +624,21 @@ body {
 
   .infoBox {
     width: 315px;
+  }
+
+  .gallery__imageCurtain {
+    left: 7%;
+    height: 240px;
+    width: 240px;
+    border: 1px solid #000;
+    position: fixed;
+    top: 17%;
+    background-color: #fff;
+    opacity: 0%;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .gallery__imageCurtain--transparent {
+    opacity: 100%;
   }
 }
