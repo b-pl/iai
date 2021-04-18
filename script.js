@@ -346,9 +346,10 @@ function handleSubmit(e, formData) {
   fetch('/api/postForm', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Content-Type': 'multipart/form-data'
     },
-    body: JSON.stringify(formData)
+    body: formData
   })
   .then(res => res.json())
   .then(showSuccessBox())
