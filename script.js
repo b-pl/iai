@@ -237,13 +237,6 @@ function toggleDropdown() {
   document.querySelector('.customSelect__options').classList.toggle('customSelect__options--visible')
   document.querySelector('.customSelect--default').classList.toggle('customSelect--default--border')
   document.querySelector('.customSelect__arrow').classList.toggle('customSelect__arrow--rotate')
-  // console.log(customOptions.nextSibling)
-  // console.log(customDefault.childNodes[3])
-  
-  // customOptions.nextSibling.classList.toggle('customSelect__options--visible')
-  // customDefault.classList.toggle('customSelect--default--border')
-  // customDefault.childNodes[3].classList.toggle('customSelect__arrow--rotate')
-}
 
 // Set attributes for selected dropdown option and display it for user
 function handleOptionClick(e, formData, activeOption) {
