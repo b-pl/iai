@@ -1,3 +1,5 @@
+window.addEventListener('DOMContentLoaded', handleDOMContentLoaded)
+
 async function handleDOMContentLoaded() {
   const productInfo = await fetchData()
   const openButton = document.querySelector('.createPopupButton')
@@ -12,8 +14,6 @@ async function handleDOMContentLoaded() {
     }
   })
 }
-
-window.addEventListener('DOMContentLoaded', handleDOMContentLoaded)
 
 function parseProductData(productData) {
   // Create productInfo object
@@ -143,7 +143,7 @@ function destroyModal() {
   hidePageOverlay()
 
   const modal = document.querySelector('.popup')
-  document.body.removeChild(modal)
+  modal && modal.remove()
 }
 
 // Switch product images
@@ -263,7 +263,7 @@ function handleQuantityInput(formData) {
 
     if (Number(quantityValue.value > Number(avaiableQuantity))) {
       const limitWarningBox = document.querySelector('.quantity__limit')
-      
+
       limitWarningBox.style.visibility = 'visible'
       document.querySelector('.quantity__limit--text').textContent = `Maksymalnie możesz kupić ${avaiableQuantity} sztuk`
       quantityValue.value = avaiableQuantity
@@ -306,10 +306,6 @@ function handleQuantityMinus(formData) {
   formData.set('product_quantity', quantityValue.value)
 }
 
-function validateQuantity() {
-
-}
-
 function showSuccessBox() {
   // Close popup
   destroyModal()
@@ -346,19 +342,17 @@ function showFailureBox() {
 
 function handleSubmit(e, formData) {
   e.preventDefault()
-  // POST formData
-  // fetch('/api/postForm', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify(formData)
-  // })
-  // .then(res => res.json())
-  // .then(showSuccessBox())
-  // .catch((error) => {
-  //   showFailureBox()
-  // })
 
-  showSuccessBox()
+  fetch('/api/postForm', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(res => res.json())
+  .then(showSuccessBox())
+  .catch((error) => {
+    showFailureBox()
+  })
 }
