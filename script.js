@@ -38,7 +38,7 @@ const createModal = (productData) => {
 
   // Overlay background on modalOpen
   const overlay = document.querySelector('.overlay')
-  overlay.style.display = 'initial'
+  overlay.style.display = 'block'
 
   // Clone modal template
   const template = document.querySelector('#popupBox')
@@ -82,6 +82,8 @@ const createModal = (productData) => {
   // Destroy modal on close
   const exitButton = clone.querySelector('#exitButton')
   exitButton.addEventListener('click', destroyModal)
+  const mobileExitButton = clone.querySelector('#mobileExitButton')
+  mobileExitButton.addEventListener('click', destroyModal)
 
   // Append above to body
   document.body.appendChild(clone)

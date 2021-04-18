@@ -17,9 +17,13 @@
   <button id='createPopup'>Click me!</button>
 
   <div class='overlay'>
+  </div>
   <template id='popupBox'>
     <div class='popup popup--hidden'>
-      <div class='popup__content'>
+      <div class='popup__content' scroll='no'>
+        <div id='mobileExitButton'>
+          <img alt='Exit cross' src='./svg/close.svg'>
+        </div>
         <div class='popup__gallery'>
           <div class='popup__gallery__arrow' id='arrowLeftContainer'>
             <img alt='Back arrow' class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
@@ -106,6 +110,5 @@
     <template id='infoBox-template'>
       <div class='infoBox'></div>
     </template>
-  </div>
 </body>
 </html>
