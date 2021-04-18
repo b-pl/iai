@@ -118,7 +118,6 @@ body {
     flex-direction: row;
   }
 
-  /* Hide default radio buttons */
   .form__productSize input {
     position: absolute;
     opacity: 0;

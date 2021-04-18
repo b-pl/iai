@@ -220,7 +220,7 @@ const handleQuantityChange = (element) => {
 
 const handleSubmit = (e) => {
   e.preventDefault()
-  console.log('click')
+  
 }
 
 const runScript = () => {
