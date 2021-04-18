@@ -102,13 +102,17 @@ const destroyModal = () => {
 const switchImage = (images, arrow) => {
   const imageContainer = document.querySelector('#productImage')
   let arrayElement = images.indexOf(imageContainer.getAttribute('src'))
-  if (arrow === 'arrowRightContainer') {
-    arrayElement = (arrayElement === images.length - 1) ? 0 : arrayElement + 1
-    imageContainer.src = images[arrayElement]
-  } else {
+  // if (arrow === 'arrowRightContainer') {
+  //   console.log('dasdasd')
+  //   arrayElement = (arrayElement === images.length - 1) ? 0 : arrayElement + 1
+  //   imageContainer.src = images[arrayElement]
+
+  // } else {
     arrayElement = (arrayElement === 0) ? images.length - 1 : arrayElement - 1
     imageContainer.src = images[arrayElement]
-  }
+    imageContainer.classList.toggle('gallery__animation-2')
+    imageContainer.classList.toggle('gallery__animation-1')
+  // }
 }
 
 // Fill object with product sizes
