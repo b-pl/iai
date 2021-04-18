@@ -625,20 +625,4 @@ body {
   .infoBox {
     width: 315px;
   }
-
-  .gallery__imageCurtain {
-    left: 7%;
-    height: 240px;
-    width: 240px;
-    border: 1px solid #000;
-    position: fixed;
-    top: 17%;
-    background-color: #fff;
-    opacity: 0%;
-    transition: opacity 1s ease-in-out;
-  }
-
-  .gallery__imageCurtain--transparent {
-    opacity: 100%;
-  }
 }
