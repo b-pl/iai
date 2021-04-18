@@ -1,15 +1,60 @@
+const runScript = async () => {
+  const productInfo = await fetchData()
+  const openButton = document.querySelector('.createPopup')
+  openButton.addEventListener('click', () => createModal(productInfo))
+
+  window.addEventListener('click', (e) => {
+    const select = document.querySelector('.customSelect')
+    if (select && !select.contains(e.target)) {
+      document.querySelector('.customSelect__options').classList.remove('customSelect__options--visible')
+      document.querySelector('.customSelect--default').classList.add('customSelect--default--border')
+      document.querySelector('.customSelect__arrow').classList.remove('customSelect__arrow--rotate')
+    }
+  })
+}
+
+window.addEventListener('DOMContentLoaded', runScript)
+
+function parseProductData(productData) {
+  // Create productInfo object
+  const productInfo = {
+    images: [productData.product.icon, productData.product.firm.gfx],
+    product_id: productData.product.id,
+    name: productData.product.name,
+    sizes: {},
+    variants: {}
+  }
+
+  // Fill sizes
+  for (const [key, value] of Object.entries(productData.sizes.items)) {
+    productInfo.sizes[key] = {
+      name: value.name,
+      description: value.description,
+      amount: value.amount
+    }
+  }
+
+  // Fill variants
+  for (const [key, value] of Object.entries(productData.multiversions[0].items)) {
+    productInfo.variants[key] = {
+      product_id: value.products[0].product_id,
+      value_id: value.values_id,
+      name: {}
+    }
+    productInfo.variants[key].name = value.values[productInfo.variants[key].value_id].name
+  }
+
+  return productInfo
+}
+
 // Get data from .json
 async function fetchData() {
   const response = await fetch('./data/xbox.json')
   const data = await response.json()
 
-  return data
-}
+  const parsedData = parseProductData(data)
 
-// Add event listener to button
-const openModalEventListener = (productData) => {
-  const openButton = document.querySelector('#createPopup')
-  openButton.addEventListener('click', (e) => createModal(productData))
+  return parsedData
 }
 
 function createFormData(productInfo) {
@@ -21,219 +66,202 @@ function createFormData(productInfo) {
   return formData
 }
 
-const createModal = (productData) => {
-  // Fill object with product data
-  const productInfo = {
-    images: [productData.product.icon, productData.product.firm.gfx],
-    product_id: productData.product.id,
-    name: productData.product.name,
-    sizes: {},
-    variants: {}
-  }
-  fillSizes(productInfo, productData)
-  fillVariants(productInfo, productData)
+function showPageOverlay() {
+  const overlay = document.querySelector('.overlay')
+  overlay.style.display = 'block'
+}
 
+function hidePageOverlay() {
+  const overlay = document.querySelector('.overlay')
+  overlay.style.display = 'none'
+}
+
+function createModal(productInfo) {
   // Create FormData object and set default values
   const formData = createFormData(productInfo)
 
-  // Overlay background on modalOpen
-  const overlay = document.querySelector('.overlay')
-  overlay.style.display = 'block'
+  showPageOverlay()
 
   // Clone modal template
-  const template = document.querySelector('#popupBox')
-  const clone = template.content.cloneNode(true)
+  const productModal = document.querySelector('#popupBox-template').content.cloneNode(true)
 
   // Add event listener for dropdown
-  const customSelect = clone.querySelector('.customSelect--default')
+  const customSelect = productModal.querySelector('.customSelect--default')
   customSelect.addEventListener('click', toggleDropdown)
 
   // Set product image source
-  const productImage = clone.querySelector('#productImage')
+  const productImage = productModal.querySelector('.productImage')
   productImage.src = productInfo.images[0]
 
   // Add event listener to gallery arrows 
-  const switchArrows = clone.querySelectorAll('.arrow')
+  const switchArrows = productModal.querySelectorAll('.arrow')
   switchArrows.forEach(element => {
-    element.addEventListener('click', (e) => switchImage(productInfo.images, element.id))
+    element.addEventListener('click', () => switchImage(productImage, productInfo.images, element.id))
   })
 
   // Set product name
-  const productName = clone.querySelector('#productName')
-  productName.textContent = productData.product.name
+  const productName = productModal.querySelector('.header__productName')
+  productName.textContent = productInfo.name
 
   // Handle quantity PLUS change
-  const quantityPlus = clone.querySelector('.operatorPlus')
-  quantityPlus.addEventListener('click', (e) => handleQuantityPlus(formData))
+  const quantityPlus = productModal.querySelector('.operatorPlus')
+  quantityPlus.addEventListener('click', () => handleQuantityPlus(formData))
 
   // Handle quantity MINUS change
-  const quantityMinus = clone.querySelector('.operatorMinus')
-  quantityMinus.addEventListener('click', (e) => handleQuantityMinus(formData))
+  const quantityMinus = productModal.querySelector('.operatorMinus')
+  quantityMinus.addEventListener('click', () => handleQuantityMinus(formData))
 
   // Create nodes with size options
-  appendSizes(clone, productInfo, formData)
+  appendSizesToProductModal(productModal, productInfo, formData)
 
   // Create nodes with variant options
-  appendVariants(clone, productInfo, formData)
+  appendVariantsToProductModal(productModal, productInfo, formData)
 
-  const submitButton = clone.querySelector('.addToCartButton')
+  const submitButton = productModal.querySelector('.addToCartButton')
   submitButton.addEventListener('click', (e) => handleSubmit(e, formData))
 
   // Destroy modal on close
-  const exitButton = clone.querySelector('#exitButton')
+  const exitButton = productModal.querySelector('.exitButton')
   exitButton.addEventListener('click', destroyModal)
-  const mobileExitButton = clone.querySelector('#mobileExitButton')
+  const mobileExitButton = productModal.querySelector('.mobileExitButton')
   mobileExitButton.addEventListener('click', destroyModal)
 
   // Append above to body
-  document.body.appendChild(clone)
+  document.body.appendChild(productModal)
+
+  checkAvailability(document.querySelector('.productSize__option').childNodes[1])
 }
 
 // Destroy popup on exit
-const destroyModal = () => {
-  const overlay = document.querySelector('.overlay')
-  overlay.style.display = 'none'
+function destroyModal() {
+  hidePageOverlay()
 
   const modal = document.querySelector('.popup')
   document.body.removeChild(modal)
 }
 
 // Switch product images
-const switchImage = (images, arrow) => {
-  const imageContainer = document.querySelector('#productImage')
+function switchImage(imageContainer, images, arrow) {
   let arrayElement = images.indexOf(imageContainer.getAttribute('src'))
-  // if (arrow === 'arrowRightContainer') {
-  //   console.log('dasdasd')
-  //   arrayElement = (arrayElement === images.length - 1) ? 0 : arrayElement + 1
-  //   imageContainer.src = images[arrayElement]
-
-  // } else {
+  if (arrow === 'rightArrow') {
+    arrayElement = (arrayElement === images.length - 1) ? 0 : arrayElement + 1
+  } else {
     arrayElement = (arrayElement === 0) ? images.length - 1 : arrayElement - 1
-    imageContainer.src = images[arrayElement]
-    imageContainer.classList.toggle('gallery__animation-2')
-    imageContainer.classList.toggle('gallery__animation-1')
-  // }
+  }
+
+  imageContainer.src = images[arrayElement]
+  imageContainer.classList.toggle('gallery__animation-2')
+  imageContainer.classList.toggle('gallery__animation-1')
 }
 
-// Fill object with product sizes
-const fillSizes = (productInfo, productData) => {
-  for (const [key, value] of Object.entries(productData.sizes.items)) {
-    productInfo.sizes[key] = {
-      name: value.name,
-      description: value.description,
-      amount: value.amount
-    }
+function checkAvailability(selectedSize) {
+  const avaiableAmount = selectedSize.getAttribute('data-amount')
+
+  if (avaiableAmount < 1) {
+    document.querySelector('.productAvaibility__delivery').style.display = 'none'
+    document.querySelector('.avaiableIcon').src = './svg/cross.svg'
+    document.querySelector('.productAvaibility__text ').textContent = 'Produkt niedostępny'
+  } else {
+    document.querySelector('.productAvaibility__delivery').style.display = 'flex'
+    document.querySelector('.avaiableIcon').src = './svg/tick.svg'
+    document.querySelector('.productAvaibility__text ').textContent = 'Produkt dostępny'
   }
 }
 
 // Create nodes for product sizes
-const appendSizes = (clone, productInfo, formData) => {
+function appendSizesToProductModal(productModal, productInfo, formData) {
   const templateOption = document.querySelector('#option')
-  const options = clone.querySelector('.productSize__options')
+  const options = productModal.querySelector('.productSize__options')
 
   let first = true
   for (const [key, value] of Object.entries(productInfo.sizes)) {
     const cloneOption = templateOption.content.cloneNode(true)
-    cloneOption.querySelector('input').id = value.name
-    cloneOption.querySelector('input').value = value.name
-    cloneOption.querySelector('input').setAttribute('data-amount', value.amount)
-    cloneOption.querySelector('label').setAttribute('for', value.name)
-    cloneOption.querySelector('label').textContent = value.description
+    const cloneInput = cloneOption.querySelector('input')
+    const cloneLabel = cloneOption.querySelector('label')
+    
+    cloneInput.id = value.name
+    cloneInput.value = value.name
+    cloneInput.setAttribute('data-amount', value.amount)
+    cloneLabel.setAttribute('for', value.name)
+    cloneLabel.textContent = value.description
     if (first) {
-      cloneOption.querySelector('input').checked = true
-      cloneOption.querySelector('input').setAttribute('data-selected', true)
+      cloneInput.checked = true
+      options.setAttribute('data-selected', value.name)
       formData.set('product_size', value.name)
     }
-    cloneOption.querySelector('input').addEventListener('click', (e) => handleSizeChange(e, formData))
+    cloneInput.addEventListener('click', (e) => handleSizeChange(e, formData))
     options.appendChild(cloneOption)
     first = false
   }
 }
 
-// Fill object with product variants
-const fillVariants = (productInfo, productData) => {
-  for (const [key, value] of Object.entries(productData.multiversions[0].items)) {
-    productInfo.variants[key] = {
-      product_id: value.products[0].product_id,
-      value_id: value.values_id,
-      name: {}
-    }
-    productInfo.variants[key].name = value.values[productInfo.variants[key].value_id].name
-  }
-}
-
 // Create nodes for dropdown
-const appendVariants = (clone, productInfo, formData) => {
+function appendVariantsToProductModal(productModal, productInfo, formData) {
   const templateSelect = document.querySelector('#select')
-  const options = clone.querySelector('.customSelect__options')
+  const options = productModal.querySelector('.customSelect__options')
 
-  const defaultSelect = clone.querySelector('#customSelect__defaultOption')
-  defaultSelect.setAttribute('data-value', productInfo.variants[0].name)
-  defaultSelect.textContent = productInfo.variants[0].name
+  const activeOption = productModal.querySelector('.customSelect__defaultOption')
+  activeOption.setAttribute('data-value', productInfo.variants[0].name)
+  activeOption.textContent = productInfo.variants[0].name
   formData.set('product_variant', productInfo.variants[0].name) 
 
   for (const [key, value] of Object.entries(productInfo.variants)) {
     const cloneOption = templateSelect.content.cloneNode(true)
-    cloneOption.querySelector('span').setAttribute('data-value', value.name)
-    cloneOption.querySelector('span').textContent = value.name
-    cloneOption.querySelector('span').addEventListener('click', toggleDropdown)
-    cloneOption.querySelector('span').addEventListener('click', (e) => handleOptionClick(e, formData))
+    const cloneSpan = cloneOption.querySelector('span')
+
+    cloneSpan.setAttribute('data-value', value.name)
+    cloneSpan.textContent = value.name
+    cloneSpan.addEventListener('click', toggleDropdown)
+    cloneSpan.addEventListener('click', (e) => handleOptionClick(e, formData, activeOption))
     options.appendChild(cloneOption)
   }
 }
 
 // Handle attributes when changing product size
-const handleSizeChange = (e, formData) => {
-  const currentSelected = document.querySelector('.option__size[data-selected=true]')
-  currentSelected.setAttribute('data-selected', false)
-
+function handleSizeChange(e, formData) {
   const target = e.target
-  target.setAttribute('data-selected', true)
 
-  formData.set('product_size', e.target.value)
+  const currentSelected = target.parentNode.parentElement.setAttribute('data-selected', target.id)
 
-  const quantity = document.querySelector('#quantity__number')
+  checkAvailability(target)
+
+  formData.set('product_size', currentSelected)
+
+  const quantity = document.querySelector('.quantity__number')
   quantity.value = 1
 }
 
 
 // Show/hide dropdown
-const toggleDropdown = () => {
+function toggleDropdown() {
   document.querySelector('.customSelect__options').classList.toggle('customSelect__options--visible')
   document.querySelector('.customSelect--default').classList.toggle('customSelect--default--border')
   document.querySelector('.customSelect__arrow').classList.toggle('customSelect__arrow--rotate')
-}
 
 // Set attributes for selected dropdown option and display it for user
-const handleOptionClick = (e, formData) => {
+function handleOptionClick(e, formData, activeOption) {
   const selectedOption = e.target.getAttribute('data-value')
-  const activeOption = document.querySelector('#customSelect__defaultOption')
   activeOption.setAttribute('data-value', selectedOption)
   activeOption.textContent = selectedOption
 
   formData.set('product_variant', activeOption.getAttribute('data-value'))
 }
 
-// Close dropdown when clicked outside of it
-const outsideDropdownClick = () => {
-  window.addEventListener('click', (e) => {
-    const select = document.querySelector('.customSelect')
-    if (!select.contains(e.target)) {
-      document.querySelector('.customSelect__options').classList.remove('customSelect__options--visible')
-      document.querySelector('.customSelect--default').classList.add('customSelect--default--border')
-      document.querySelector('.customSelect__arrow').classList.remove('customSelect__arrow--rotate')
-    }
-  })
-}
-
 // Set value of quantity input - PLUS operator
 function handleQuantityPlus(formData) {
-  const quantityValue = document.querySelector('#quantity__number')
-  const selectedSize = document.querySelector('.option__size[data-selected=true]')
-  const avaiableQuantity = selectedSize.getAttribute('data-amount')
+  const quantityValue = document.querySelector('.quantity__number')
+  const selectedSize = document.querySelector('.productSize__options').getAttribute('data-selected')
+  const avaiableQuantity = document.querySelector(`.option__size[id=${selectedSize}]`).getAttribute('data-amount')
 
   if (Number(quantityValue.value) < Number(avaiableQuantity)) {
-    quantityValue.value = Number(quantityValue.value) + Number(1)
+    quantityValue.value = Number(quantityValue.value) + 1
+  } else {
+    const limitWarningBox = document.querySelector('.quantity__limit')
+    limitWarningBox.style.visibility = 'visible'
+    document.querySelector('.quantity__limit--text').textContent = `Maksymalnie możesz kupić ${avaiableQuantity} sztuk`
+    setTimeout(function() {
+      limitWarningBox.style.visibility = 'hidden'
+    }, 2000);
   }
 
   formData.set('product_quantity', quantityValue.value)
@@ -241,12 +269,10 @@ function handleQuantityPlus(formData) {
 
 // Set value of quantity input - MINUS operator
 function handleQuantityMinus(formData) {
-  const quantityValue = document.querySelector('#quantity__number')
-  const selectedSize = document.querySelector('.option__size[data-selected=true]')
-  const avaiableQuantity = selectedSize.getAttribute('data-amount')
+  const quantityValue = document.querySelector('.quantity__number')
 
   if (quantityValue.value != 1) {
-    quantityValue.value = Number(quantityValue.value) - Number(1)
+    quantityValue.value = Number(quantityValue.value) - 1
   }
 
   formData.set('product_quantity', quantityValue.value)
@@ -256,45 +282,37 @@ function showSuccessBox() {
   // Close popup
   destroyModal()
 
-  const template = document.querySelector('#infoBox-template')
-  const clone = template.content.cloneNode(true)
+  const successBox = document.querySelector('#infoBox-template').content.cloneNode(true)
 
-  const infoBox = clone.querySelector('.infoBox')
+  const infoBox = successBox.querySelector('.infoBox')
   infoBox.classList.add('successBox')
   infoBox.textContent = 'Produkt dodano do koszyka.'
-  document.body.appendChild(clone)
+  document.body.appendChild(successBox)
 
   // Wait before animation-out
   setTimeout(function() {
     infoBox.classList.remove('successBox')
   }, 5000);
-
-  // Destroy div
-  infoBox.remove()
 }
 
 function showFailureBox() {
   // Close popup
   destroyModal()
 
-  const template = document.querySelector('#infoBox-template')
-  const clone = template.content.cloneNode(true)
+  const failureBox = document.querySelector('#infoBox-template').content.cloneNode(true)
 
-  const infoBox = clone.querySelector('.infoBox')
+  const infoBox = failureBox.querySelector('.infoBox')
   infoBox.classList.add('failureBox')
   infoBox.textContent = 'Coś poszło nie tak. Spróbuj ponownie.'
-  document.body.appendChild(clone)
+  document.body.appendChild(failureBox)
 
   // Wait before animation-out
   setTimeout(function() {
     infoBox.classList.remove('failureBox')
   }, 5000);
-
-  // Destroy div
-  infoBox.remove()
 }
 
-const handleSubmit = (e, formData) => {
+function handleSubmit(e, formData) {
   e.preventDefault()
   
   // POST formData
@@ -311,11 +329,3 @@ const handleSubmit = (e, formData) => {
   //   showFailureBox()
   // })
 }
-
-const runScript = async () => {
-  const productData = await fetchData()
-  openModalEventListener(productData)
-  outsideDropdownClick()
-}
-
-window.addEventListener('load', runScript)

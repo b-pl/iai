@@ -10,62 +10,56 @@
   <title>Mini-card</title>
   
   <link rel="stylesheet" href="./styles.css">
-  <script src="./script.js"></script>
+  <script src="./script.js" defer></script>
 </head>
 
 <body>
-  <button id='createPopup'>Click me!</button>
+  <button class='createPopup'>Click me!</button>
 
-  <div class='overlay'>
-  </div>
-  <template id='popupBox'>
+  <div class='overlay'></div>
+  <template id='popupBox-template'>
     <div class='popup popup--hidden'>
       <div class='popup__content' scroll='no'>
-        <div id='mobileExitButton'>
+        <div class='mobileExitButton'>
           <img alt='Exit cross' src='./svg/close.svg'>
         </div>
         <div class='popup__gallery'>
-          <div class='popup__gallery__arrow' id='arrowLeftContainer'>
-            <img alt='Back arrow' class='arrow' id='leftArrow' src='./svg/chevron-right.svg'>
+          <div class='popup__gallery__arrow popup__gallery__arrow--left'>
+            <img alt='Back arrow' class='arrow leftArrow' src='./svg/chevron-right.svg'>
           </div>
           <div class='popup__gallery__image'>
-            <!-- <div class='gallery__imageCurtain'></div> -->
-            <img id='productImage' class='gallery__animation-1' alt='Product image' src=''>
+            <img alt='Product image' class='gallery__animation-1 productImage' src=''>
           </div>
-          <div class='popup__gallery__arrow' id='arrowRightContainer'>
-            <img alt='Forward arrow' class='arrow' id='rightArrow' src='./svg/chevron-right.svg'>
+          <div class='popup__gallery__arrow popup__gallery__arrow--right'>
+            <img alt='Forward arrow' class='arrow rightArrow' src='./svg/chevron-right.svg'>
           </div>
         </div>
         <div class='popup__form'>
           <form id='buyForm'>
             <div class='form__header'>
-              <span id='productName'>Konsola MICROSOFT XBOX ONE S 500GB + FIFA 19</span>
-              <span id='exitButton'><img alt='Exit cross' src='./svg/close.svg'></span>
+              <span class='header__productName'></span>
+              <span class='exitButton'><img alt='Exit cross' src='./svg/close.svg'></span>
             </div>
             <div class='form__productSize'>
               <div class='form__customLabel'>Rozmiar:</div>
-                <div class='productSize__options'>
-                  <!-- CLONE TEMPLATE HERE -->
-                </div>
+                <div class='productSize__options'></div>
               </div>
             <div class='form__productVariant'>
               <div class='form__customLabel'>Wariant:</div>
               <div class='customSelect'>
                 <div class='customSelect--default customSelect--default--border'>
-                  <span class='customSelect__option' id='customSelect__defaultOption' data-value=''></span>
+                  <span class='customSelect__option customSelect__defaultOption' data-value=''></span>
                   <span class='customSelect__arrow'></span>
                 </div>
-                <div class='customSelect__options'>
-                  <!-- CLONE TEMPLATE HERE -->
-                </div>
+                <div class='customSelect__options'></div>
               </div>
             </div>
             <div class='form__productAvaibility'>
               <div class='productAvaibility__isAvaiable'>
-                <span class='productAvaibility__icon avaiableIcon'>
-                  <img alt='Tick' src='./svg/tick.svg'>
+                <span class='productAvaibility__icon'>
+                  <img alt='Tick' class='avaiableIcon' src='./svg/tick.svg'>
                 </span>
-                <span class='productAvaibility__text'>
+                <span class='productAvaibility__text productAvaibility__text-availability'>
                   Produkt dostępny
                 </span>
               </div>
@@ -73,17 +67,20 @@
                 <span class='productAvaibility__icon deliveryIcon'>
                   <img alt='Timer' src='./svg/timer.svg'>
                 </span>
-                <div class='productAvaibility__text'>
+                <div class='productAvaibility__text productAvaibility__text--delivery'>
                   <div>Możemy wysłać już dzisiaj!</div>
                   <div class='productAvaibility__deliveryCost'>Sprawdź czasy i koszty wysyłki</div>
                 </div>
               </div>
             </div>
             <div class='form__productQuantity'>
+              <div class='quantity__limit'>
+                <span class='quantity__limit--text'></span>
+              </div>
               <div class='quantity'>
                 <span class='quantity__operator operatorMinus'>-</span>
                 <span class='quantity__numberContainer'>
-                  <input id='quantity__number' type='text' value='1' disabled>
+                  <input class='quantity__number' type='number' value='1'>
                 </span>
                 <span class='quantity__operator operatorPlus'>+</span>
               </div>
@@ -99,7 +96,7 @@
 
     <template id='option'>
       <div class='productSize__option'>
-        <input type='radio' id='' class='option__size' name='size' value=''>
+        <input type='radio' class='option__size' name='size' value=''>
         <label for=''></label>
       </div>
     </template>
