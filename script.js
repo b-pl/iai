@@ -307,9 +307,7 @@ const handleSubmit = (e, formData) => {
 }
 
 const runScript = async () => {
-  document.querySelector('#test').addEventListener('click', test)
   const productData = await fetchData()
-
   openModalEventListener(productData)
   outsideDropdownClick()
 }
