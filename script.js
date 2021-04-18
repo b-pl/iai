@@ -1,4 +1,4 @@
-const runScript = async () => {
+async function handleDOMContentLoaded() {
   const productInfo = await fetchData()
   const openButton = document.querySelector('.createPopupButton')
   openButton.addEventListener('click', () => createModal(productInfo))
@@ -13,7 +13,7 @@ const runScript = async () => {
   })
 }
 
-window.addEventListener('DOMContentLoaded', runScript)
+window.addEventListener('DOMContentLoaded', handleDOMContentLoaded)
 
 function parseProductData(productData) {
   // Create productInfo object
@@ -117,6 +117,7 @@ function createModal(productInfo) {
   // Create nodes with variant options
   appendVariantsToProductModal(productModal, productInfo, formData)
 
+  // Handle submit
   const submitButton = productModal.querySelector('.addToCartButton')
   submitButton.addEventListener('click', (e) => handleSubmit(e, formData))
 
@@ -129,7 +130,12 @@ function createModal(productInfo) {
   // Append above to body
   document.body.appendChild(productModal)
 
+  // Handle availability text and icon
   checkAvailability(document.querySelector('.productSize__option').childNodes[1])
+
+  // Validate user quantity input
+  const quantityInput = document.querySelector('.quantity__numberContainer')
+  quantityInput.addEventListener('blur', handleQuantityInput(formData))
 }
 
 // Destroy popup on exit
@@ -170,7 +176,7 @@ function checkAvailability(selectedSize) {
 
 // Create nodes for product sizes
 function appendSizesToProductModal(productModal, productInfo, formData) {
-  const templateOption = document.querySelector('#option')
+  const templateOption = document.querySelector('#option-template')
   const options = productModal.querySelector('.productSize__options')
 
   let first = true
@@ -197,7 +203,7 @@ function appendSizesToProductModal(productModal, productInfo, formData) {
 
 // Create nodes for dropdown
 function appendVariantsToProductModal(productModal, productInfo, formData) {
-  const templateSelect = document.querySelector('#select')
+  const templateSelect = document.querySelector('#select-template')
   const options = productModal.querySelector('.customSelect__options')
 
   const activeOption = productModal.querySelector('.customSelect__defaultOption')
@@ -248,6 +254,27 @@ function handleOptionClick(e, formData, activeOption) {
   formData.set('product_variant', activeOption.getAttribute('data-value'))
 }
 
+function handleQuantityInput(formData) {
+  const quantityValue = document.querySelector('.quantity__number')
+
+  quantityValue.addEventListener('blur', () => {
+    const selectedSize = document.querySelector('.productSize__options').getAttribute('data-selected')
+    const avaiableQuantity = document.querySelector(`.option__size[id=${selectedSize}]`).getAttribute('data-amount')
+
+    if (Number(quantityValue.value > Number(avaiableQuantity))) {
+      const limitWarningBox = document.querySelector('.quantity__limit')
+      
+      limitWarningBox.style.visibility = 'visible'
+      document.querySelector('.quantity__limit--text').textContent = `Maksymalnie możesz kupić ${avaiableQuantity} sztuk`
+      quantityValue.value = avaiableQuantity
+
+      setTimeout(function () {
+        limitWarningBox.style.visibility = 'hidden'
+      }, 2000);
+    }
+  })
+}
+
 // Set value of quantity input - PLUS operator
 function handleQuantityPlus(formData) {
   const quantityValue = document.querySelector('.quantity__number')
@@ -277,6 +304,10 @@ function handleQuantityMinus(formData) {
   }
 
   formData.set('product_quantity', quantityValue.value)
+}
+
+function validateQuantity() {
+
 }
 
 function showSuccessBox() {
@@ -328,4 +359,6 @@ function handleSubmit(e, formData) {
   // .catch((error) => {
   //   showFailureBox()
   // })
+
+  showSuccessBox()
 }
