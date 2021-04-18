@@ -15,11 +15,28 @@ body {
   color: #333;
 }
 
-.createPopup {
+.createPopupButton {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
+  background-color: #0090F6;
+  padding: 8px 16px;
+  border: 1px solid #0090F6;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 3px 3px 2px #3AC2F8;
+}
+
+.createPopupButton:hover {
+  background-color: #fff;
+  color: #0090F6;
+  transition: all 0.2s;
 }
 
 .overlay {
@@ -410,6 +427,7 @@ body {
     height: 353px;
     border: 1px solid #fff;
     border-radius: 5px;
+    box-shadow: 2px 2px 2px #000;
   }
 
   .popup__content {

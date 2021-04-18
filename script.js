@@ -1,6 +1,6 @@
 const runScript = async () => {
   const productInfo = await fetchData()
-  const openButton = document.querySelector('.createPopup')
+  const openButton = document.querySelector('.createPopupButton')
   openButton.addEventListener('click', () => createModal(productInfo))
 
   window.addEventListener('click', (e) => {
@@ -237,6 +237,7 @@ function toggleDropdown() {
   document.querySelector('.customSelect__options').classList.toggle('customSelect__options--visible')
   document.querySelector('.customSelect--default').classList.toggle('customSelect--default--border')
   document.querySelector('.customSelect__arrow').classList.toggle('customSelect__arrow--rotate')
+}
 
 // Set attributes for selected dropdown option and display it for user
 function handleOptionClick(e, formData, activeOption) {
@@ -314,7 +315,6 @@ function showFailureBox() {
 
 function handleSubmit(e, formData) {
   e.preventDefault()
-  
   // POST formData
   // fetch('/api/postForm', {
   //   method: 'POST',
